@@ -9,3 +9,5 @@
 /Users/cambender/Desktop/Poker.NET/Poker.Core/obj/Debug/net9.0/refint/Poker.Core.dll
 /Users/cambender/Desktop/Poker.NET/Poker.Core/obj/Debug/net9.0/Poker.Core.pdb
 /Users/cambender/Desktop/Poker.NET/Poker.Core/obj/Debug/net9.0/ref/Poker.Core.dll
+/Users/cambender/Desktop/Poker.NET/Poker.Core/obj/Debug/net9.0/Poker.Core.sourcelink.json
+/Users/cambender/Desktop/Poker.NET/Poker.Core/obj/Debug/net9.0/Poker.Core.csproj.AssemblyReference.cache

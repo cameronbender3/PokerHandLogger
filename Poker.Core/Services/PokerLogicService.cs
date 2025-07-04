@@ -81,7 +81,7 @@ public class PokerLogicService : IPokerLogicService
     }
 
     // Helper: Get how much the player has put in on this street
-    private int GetPlayerContributionThisStreet(List<Poker.Core.Models.Action> streetActions, Guid playerId)
+    private int GetPlayerContributionThisStreet(List<Poker.Core.Models.Action> streetActions, int playerId)
     {
         return streetActions
             .Where(a => a.PlayerId == playerId && (a.ActionType == ActionType.Call || a.ActionType == ActionType.Raise))
@@ -89,7 +89,7 @@ public class PokerLogicService : IPokerLogicService
     }
 
     // Helper: Get how much the player has put in total (across all streets)
-    private int GetTotalContribution(Hand hand, Guid playerId)
+    private int GetTotalContribution(Hand hand, int playerId)
     {
         return hand.Actions
             .Where(a => a.PlayerId == playerId && (a.ActionType == ActionType.Call || a.ActionType == ActionType.Raise))
@@ -105,7 +105,7 @@ public class PokerLogicService : IPokerLogicService
             if (hand.IsStraddleOn == true && hand.StraddleAmount.HasValue)
                 return hand.StraddleAmount.Value;
             else
-                return hand.Stakes.Count > 1 ? hand.Stakes[1] : 0; // [small, big]
+                return hand.StakesList.Count > 1 ? hand.StakesList[1] : 0; // [small, big]
         }
         return 0;
     }
@@ -208,7 +208,55 @@ public class PokerLogicService : IPokerLogicService
     
     public Player? GetNextToAct(Hand hand)
     {
-        // TODO: Implement logic
+        if (hand == null || hand.Players == null || hand.Players.Count < 2)
+            return null;
+
+        var currentStreet = hand.CurrentStreet;
+        var actionsThisStreet = hand.Actions
+            .Where(a => a.Street == currentStreet)
+            .OrderBy(a => a.Sequence)
+            .ToList();
+
+        // Only consider players who have not folded and are not all-in
+        var eligiblePlayers = hand.Players
+            .Where(p => !PlayerHasFolded(hand, p) && !PlayerIsAllIn(hand, p))
+            .OrderBy(p => p.SeatIndex)
+            .ToList();
+
+
+            if (eligiblePlayers.Count == 1)
+                return null;
+        // Determine the action order for the current street.
+        // For simplicity, assume order by SeatIndex (refine for straddle later if needed)
+        // Find the last player who acted this street, if any
+        Player? lastActor = null;
+        if (actionsThisStreet.Count > 0)
+        {
+            var lastAction = actionsThisStreet.Last();
+            lastActor = eligiblePlayers.FirstOrDefault(p => p.Id == lastAction.PlayerId);
+        }
+
+        int startIdx = 0;
+        if (lastActor != null)
+        {
+            int idx = eligiblePlayers.IndexOf(lastActor);
+            startIdx = (idx + 1) % eligiblePlayers.Count;
+        }
+
+        // Loop through eligible players in table order, starting after last actor
+        for (int i = 0; i < eligiblePlayers.Count; i++)
+        {
+            int idx = (startIdx + i) % eligiblePlayers.Count;
+            var player = eligiblePlayers[idx];
+
+            // Check if player has acted this street (fold/call/raise/check)
+            bool hasActed = hand.Actions.Any(a => a.Street == currentStreet && a.PlayerId == player.Id);
+
+            if (!hasActed)
+                return player;
+        }
+
+        // All eligible players have acted
         return null;
     }
 
@@ -216,26 +264,87 @@ public class PokerLogicService : IPokerLogicService
 
     public bool IsBettingRoundComplete(Hand hand, Street street)
     {
-        // TODO: Implement logic
-        return false;
+        return GetNextToAct(hand) == null;
     }
 
 
 
     public void UndoLastAction(Hand hand)
     {
-        // TODO: Implement logic
+        if (hand.Actions == null || hand.Actions.Count == 0)
+            return;
+
+        // Find the last action (should always be a user action)
+        var lastAction = hand.Actions.OrderByDescending(a => a.Sequence).First();
+
+        // Remove last action (user action)
+        hand.Actions.Remove(lastAction);
+
+        // Remove any preceding auto-filled actions (by descending sequence), until next user action or empty
+        while (hand.Actions.Count > 0)
+        {
+            var prevAction = hand.Actions.OrderByDescending(a => a.Sequence).First();
+            if (prevAction.IsAutoFilled)
+                hand.Actions.Remove(prevAction);
+            else
+                break;
+        }
     }
+
 
     public int GetPotSize(Hand hand, Street upToStreet)
     {
-        // TODO: Implement logic
-        return 0;
+        int pot = 0;
+        if (hand.Actions == null) return 0;
+
+        foreach (var action in hand.Actions)
+        {
+            if ((action.Street <= upToStreet) && 
+                (action.ActionType == ActionType.Raise || action.ActionType == ActionType.Call))
+            {
+                pot += action.Amount;
+            }
+        }
+        return pot;
     }
+
 
     public int GetMinimumRaiseAmount(Hand hand, Player player)
     {
-        // TODO: Implement logic
-        return 0;
+        var street = hand.CurrentStreet;
+        var actionsThisStreet = hand.Actions
+            .Where(a => a.Street == street)
+            .OrderBy(a => a.Sequence)
+            .ToList();
+
+        // Find all unique raises or bets (you can add ActionType.Bet if you use it)
+        var raises = actionsThisStreet
+            .Where(a => a.ActionType == ActionType.Raise)
+            .ToList();
+
+        int minRaise = 0;
+
+        if (raises.Count == 0)
+        {
+            // No raise yet. Use BB for preflop, otherwise 0 or a default for postflop
+            minRaise = (street == Street.Preflop && hand.StakesList.Count > 1) ? hand.StakesList[1] : 0;
+        }
+        else if (raises.Count == 1)
+        {
+            // First raise: min raise = 2x BB or 2x first bet
+            minRaise = raises[0].Amount * 2;
+        }
+        else
+        {
+            // Find the last two raises to get difference
+            var lastRaise = raises.Last();
+            var prevRaise = raises[raises.Count - 2];
+            var raiseDiff = lastRaise.Amount - prevRaise.Amount;
+            minRaise = lastRaise.Amount + raiseDiff;
+        }
+
+        return minRaise;
     }
+
+
 }

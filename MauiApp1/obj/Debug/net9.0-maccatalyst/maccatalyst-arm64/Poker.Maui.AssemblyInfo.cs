@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Poker.Maui")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+e3f7f3ffa8fed95f2647e6c34d290a0088f58522")]
 [assembly: System.Reflection.AssemblyProductAttribute("Poker.Maui")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Poker.Maui")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

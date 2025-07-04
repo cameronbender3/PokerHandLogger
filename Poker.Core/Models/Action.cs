@@ -1,10 +1,17 @@
 using System;
+using SQLite;
 
-namespace Poker.Core.Models;
-
-public class Action
+namespace Poker.Core.Models
+{
+    [Table("Action")]
+    public class Action
     {
-        public Guid PlayerId { get; set; }
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; } // Primary key for Action
+
+        public int HandId { get; set; }   // Foreign key to Hand
+        public int PlayerId { get; set; } // Foreign key to Player
+
         public ActionType ActionType { get; set; }
         public int Amount { get; set; }
         public Street Street { get; set; }
@@ -13,7 +20,6 @@ public class Action
 
         public Action()
         {
-            PlayerId = Guid.Empty;
             ActionType = ActionType.Fold;
             Amount = 0;
             Street = Street.Preflop;
@@ -39,3 +45,4 @@ public class Action
         Turn,
         River
     }
+}

@@ -90,6 +90,10 @@
               "target": "Package",
               "version": "[9.0.5, )",
               "autoReferenced": true
+            },
+            "sqlite-net-pcl": {
+              "target": "Package",
+              "version": "[1.9.172, )"
             }
           },
           "imports": [
@@ -135,6 +139,10 @@
               "target": "Package",
               "version": "[9.0.5, )",
               "autoReferenced": true
+            },
+            "sqlite-net-pcl": {
+              "target": "Package",
+              "version": "[1.9.172, )"
             }
           },
           "imports": [
@@ -180,6 +188,10 @@
               "target": "Package",
               "version": "[9.0.5, )",
               "autoReferenced": true
+            },
+            "sqlite-net-pcl": {
+              "target": "Package",
+              "version": "[1.9.172, )"
             }
           },
           "imports": [
@@ -212,15 +224,6 @@
         }
       },
       "runtimes": {
-        "android-arm64": {
-          "#import": []
-        },
-        "android-x64": {
-          "#import": []
-        },
-        "iossimulator-arm64": {
-          "#import": []
-        },
         "maccatalyst-arm64": {
           "#import": []
         }
@@ -266,6 +269,12 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
+          "dependencies": {
+            "sqlite-net-pcl": {
+              "target": "Package",
+              "version": "[1.9.172, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -283,6 +292,11 @@
             }
           },
           "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.300/PortableRuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "maccatalyst-arm64": {
+          "#import": []
         }
       }
     },
@@ -311,15 +325,27 @@
         "frameworks": {
           "net9.0-android35.0": {
             "targetAlias": "net9.0-android",
-            "projectReferences": {}
+            "projectReferences": {
+              "/Users/cambender/Desktop/Poker.NET/Poker.Core/Poker.Core.csproj": {
+                "projectPath": "/Users/cambender/Desktop/Poker.NET/Poker.Core/Poker.Core.csproj"
+              }
+            }
           },
           "net9.0-ios18.0": {
             "targetAlias": "net9.0-ios",
-            "projectReferences": {}
+            "projectReferences": {
+              "/Users/cambender/Desktop/Poker.NET/Poker.Core/Poker.Core.csproj": {
+                "projectPath": "/Users/cambender/Desktop/Poker.NET/Poker.Core/Poker.Core.csproj"
+              }
+            }
           },
           "net9.0-maccatalyst18.0": {
             "targetAlias": "net9.0-maccatalyst",
-            "projectReferences": {}
+            "projectReferences": {
+              "/Users/cambender/Desktop/Poker.NET/Poker.Core/Poker.Core.csproj": {
+                "projectPath": "/Users/cambender/Desktop/Poker.NET/Poker.Core/Poker.Core.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -452,6 +478,11 @@
             }
           },
           "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.300/PortableRuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "maccatalyst-arm64": {
+          "#import": []
         }
       }
     }
