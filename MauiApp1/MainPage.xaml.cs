@@ -1,23 +1,42 @@
-﻿namespace MauiApp1;
+﻿using System;
+using MauiApp1.ViewModels;
+using Poker.Core.Models;
+using Microsoft.Maui.Controls;
+using System.Threading.Tasks;
 
-public partial class MainPage : ContentPage
+
+namespace MauiApp1;
+
+    public partial class MainPage : ContentPage
 {
-	int count = 0;
+	private MainPageViewModel ViewModel => BindingContext as MainPageViewModel;
 
 	public MainPage()
 	{
 		InitializeComponent();
+		BindingContext = new MainPageViewModel();
 	}
 
-	private void OnCounterClicked(object? sender, EventArgs e)
+
+	private async void OnAddHandClicked(object sender, EventArgs e)
 	{
-		count++;
+		await DisplayAlert("Add Hand", "This will open the Hand Edit screen.", "OK");
+	}
 
-		if (count == 1)
-			CounterBtn.Text = $"Clicked {count} time";
-		else
-			CounterBtn.Text = $"Clicked {count} times";
 
-		SemanticScreenReader.Announce(CounterBtn.Text);
+	private async void OnReceiveHandClicked(object sender, EventArgs e)
+	{
+    await DisplayAlert("Add Hand", "This will open the Hand Edit screen.", "OK");
+	}
+
+	private async void OnHandSelected(object sender, SelectionChangedEventArgs e)
+	{
+		var selectedHand = e.CurrentSelection.FirstOrDefault() as Hand;
+		if (selectedHand == null)
+			return;
+
+		((CollectionView)sender).SelectedItem = null;
+
+    await DisplayAlert("Add Hand", "This will open the Hand Edit screen.", "OK");
 	}
 }

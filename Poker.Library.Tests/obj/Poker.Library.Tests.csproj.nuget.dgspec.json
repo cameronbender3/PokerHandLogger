@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/cambender/Desktop/Poker.NET/Poker.Library.Tests/Poker.Library.Tests.csproj": {}
+    "/Users/cambender/Poker.NET/Poker.Library.Tests/Poker.Library.Tests.csproj": {}
   },
   "projects": {
-    "/Users/cambender/Desktop/Poker.NET/Poker.Core/Poker.Core.csproj": {
+    "/Users/cambender/Poker.NET/Poker.Core/Poker.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/cambender/Desktop/Poker.NET/Poker.Core/Poker.Core.csproj",
+        "projectUniqueName": "/Users/cambender/Poker.NET/Poker.Core/Poker.Core.csproj",
         "projectName": "Poker.Core",
-        "projectPath": "/Users/cambender/Desktop/Poker.NET/Poker.Core/Poker.Core.csproj",
+        "projectPath": "/Users/cambender/Poker.NET/Poker.Core/Poker.Core.csproj",
         "packagesPath": "/Users/cambender/.nuget/packages/",
-        "outputPath": "/Users/cambender/Desktop/Poker.NET/Poker.Core/obj/",
+        "outputPath": "/Users/cambender/Poker.NET/Poker.Core/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/cambender/.nuget/NuGet/NuGet.Config"
@@ -45,6 +45,10 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "dependencies": {
+            "SQLitePCLRaw.bundle_green": {
+              "target": "Package",
+              "version": "[2.1.11, )"
+            },
             "sqlite-net-pcl": {
               "target": "Package",
               "version": "[1.9.172, )"
@@ -70,14 +74,14 @@
         }
       }
     },
-    "/Users/cambender/Desktop/Poker.NET/Poker.Library.Tests/Poker.Library.Tests.csproj": {
+    "/Users/cambender/Poker.NET/Poker.Data/Poker.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/cambender/Desktop/Poker.NET/Poker.Library.Tests/Poker.Library.Tests.csproj",
-        "projectName": "Poker.Library.Tests",
-        "projectPath": "/Users/cambender/Desktop/Poker.NET/Poker.Library.Tests/Poker.Library.Tests.csproj",
+        "projectUniqueName": "/Users/cambender/Poker.NET/Poker.Data/Poker.Data.csproj",
+        "projectName": "Poker.Data",
+        "projectPath": "/Users/cambender/Poker.NET/Poker.Data/Poker.Data.csproj",
         "packagesPath": "/Users/cambender/.nuget/packages/",
-        "outputPath": "/Users/cambender/Desktop/Poker.NET/Poker.Library.Tests/obj/",
+        "outputPath": "/Users/cambender/Poker.NET/Poker.Data/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/cambender/.nuget/NuGet/NuGet.Config"
@@ -93,8 +97,91 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "/Users/cambender/Desktop/Poker.NET/Poker.Core/Poker.Core.csproj": {
-                "projectPath": "/Users/cambender/Desktop/Poker.NET/Poker.Core/Poker.Core.csproj"
+              "/Users/cambender/Poker.NET/Poker.Core/Poker.Core.csproj": {
+                "projectPath": "/Users/cambender/Poker.NET/Poker.Core/Poker.Core.csproj"
+              },
+              "/Users/cambender/Poker.NET/Poker.Library/Poker.Library.csproj": {
+                "projectPath": "/Users/cambender/Poker.NET/Poker.Library/Poker.Library.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "SQLitePCLRaw.bundle_green": {
+              "target": "Package",
+              "version": "[2.1.11, )"
+            },
+            "sqlite-net-pcl": {
+              "target": "Package",
+              "version": "[1.9.172, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.300/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/cambender/Poker.NET/Poker.Library.Tests/Poker.Library.Tests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/cambender/Poker.NET/Poker.Library.Tests/Poker.Library.Tests.csproj",
+        "projectName": "Poker.Library.Tests",
+        "projectPath": "/Users/cambender/Poker.NET/Poker.Library.Tests/Poker.Library.Tests.csproj",
+        "packagesPath": "/Users/cambender/.nuget/packages/",
+        "outputPath": "/Users/cambender/Poker.NET/Poker.Library.Tests/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/cambender/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "/usr/local/share/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "/Users/cambender/Poker.NET/Poker.Core/Poker.Core.csproj": {
+                "projectPath": "/Users/cambender/Poker.NET/Poker.Core/Poker.Core.csproj"
+              },
+              "/Users/cambender/Poker.NET/Poker.Data/Poker.Data.csproj": {
+                "projectPath": "/Users/cambender/Poker.NET/Poker.Data/Poker.Data.csproj"
+              },
+              "/Users/cambender/Poker.NET/Poker.Library/Poker.Library.csproj": {
+                "projectPath": "/Users/cambender/Poker.NET/Poker.Library/Poker.Library.csproj"
               }
             }
           }
@@ -130,6 +217,77 @@
             "xunit.runner.visualstudio": {
               "target": "Package",
               "version": "[2.8.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.300/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/cambender/Poker.NET/Poker.Library/Poker.Library.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/cambender/Poker.NET/Poker.Library/Poker.Library.csproj",
+        "projectName": "Poker.Library",
+        "projectPath": "/Users/cambender/Poker.NET/Poker.Library/Poker.Library.csproj",
+        "packagesPath": "/Users/cambender/.nuget/packages/",
+        "outputPath": "/Users/cambender/Poker.NET/Poker.Library/obj/",
+        "projectStyle": "PackageReference",
+        "crossTargeting": true,
+        "configFilePaths": [
+          "/Users/cambender/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "/usr/local/share/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "/Users/cambender/Poker.NET/Poker.Core/Poker.Core.csproj": {
+                "projectPath": "/Users/cambender/Poker.NET/Poker.Core/Poker.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Microsoft.Maui.Controls": {
+              "target": "Package",
+              "version": "[9.0.51, )"
             }
           },
           "imports": [

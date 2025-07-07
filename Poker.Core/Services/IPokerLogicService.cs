@@ -6,12 +6,12 @@ using Poker.Core.Models;
 
 public interface IPokerLogicService
 {
-        List<ActionType> GetAvailableActions(Hand hand, Player player);
-        Player? GetNextToAct(Hand hand);
-        void AutoFillSkippedActions(Hand hand, Player justActedPlayer);
-        bool IsBettingRoundComplete(Hand hand, Street street);
+        public List<ActionType> GetAvailableActions(HandWithDetails handWithDetails, Player player);
+        Player? GetNextToAct(HandWithDetails handWithDetails);
+        void AutoFillSkippedActions(HandWithDetails handWithDetails, Player justActedPlayer);
+        bool IsBettingRoundComplete(HandWithDetails handWithDetails, Street street);
         Street GetNextStreet(Street street);
-        void UndoLastAction(Hand hand);
-        int GetPotSize(Hand hand, Street upToStreet);
-        int GetMinimumRaiseAmount(Hand hand, Player player);
+        void UndoLastAction(HandWithDetails handWithDetails);
+        int GetPotSize(HandWithDetails handWithDetails, Street upToStreet);
+        int GetMinimumRaiseAmount(HandWithDetails handWithDetails, Player player);
 }

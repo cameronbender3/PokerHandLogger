@@ -9,25 +9,28 @@ namespace Poker.Core.Models
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
-        public int HandId { get; set; } // FK if Player belongs to a Hand
+        public int HandId { get; set; } // Foreign key to Hand
 
         public string Name { get; set; } = string.Empty;
         public int InitialStack { get; set; }
         public bool IsHero { get; set; }
         public int SeatIndex { get; set; }
-        public string HoleCards { get; set; } = string.Empty; // e.g., "As,Kd"
+
+        // For storage, use a comma-separated string for two hole cards, e.g., "As,Kd"
+        public string HoleCards { get; set; } = string.Empty;
+
         public PlayerType Type { get; set; } = PlayerType.Unknown;
 
         public Player() { }
+    }
 
-        public enum PlayerType
-        {
-            Unknown,
-            Fish,
-            Whale,
-            Shark,
-            Nit,
-            Reg
-        }
+    public enum PlayerType
+    {
+        Unknown,
+        Fish,
+        Whale,
+        Shark,
+        Nit,
+        Reg
     }
 }

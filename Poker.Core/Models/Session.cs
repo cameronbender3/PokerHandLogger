@@ -8,6 +8,7 @@ namespace Poker.Core.Models
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
+        public Guid SyncId { get; set; }
 
         public DateTime Date { get; set; }
         public string Location { get; set; } = string.Empty;
@@ -18,6 +19,7 @@ namespace Poker.Core.Models
         public Session()
         {
             Date = DateTime.Now;
+            SyncId  = Guid.NewGuid();
         }
     }
 }

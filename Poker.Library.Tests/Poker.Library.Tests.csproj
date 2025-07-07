@@ -19,7 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="../Poker.Library/Poker.Library.csproj" />
     <ProjectReference Include="..\Poker.Core\Poker.Core.csproj" />
+    <ProjectReference Include="..\Poker.Data\Poker.Data.csproj" />
   </ItemGroup>
 
 </Project>

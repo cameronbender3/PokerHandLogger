@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/cambender/Desktop/Poker.NET/Poker.Library/Poker.Library.csproj": {}
+    "/Users/cambender/Poker.NET/Poker.Library/Poker.Library.csproj": {}
   },
   "projects": {
-    "/Users/cambender/Desktop/Poker.NET/Poker.Core/Poker.Core.csproj": {
+    "/Users/cambender/Poker.NET/Poker.Core/Poker.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/cambender/Desktop/Poker.NET/Poker.Core/Poker.Core.csproj",
+        "projectUniqueName": "/Users/cambender/Poker.NET/Poker.Core/Poker.Core.csproj",
         "projectName": "Poker.Core",
-        "projectPath": "/Users/cambender/Desktop/Poker.NET/Poker.Core/Poker.Core.csproj",
+        "projectPath": "/Users/cambender/Poker.NET/Poker.Core/Poker.Core.csproj",
         "packagesPath": "/Users/cambender/.nuget/packages/",
-        "outputPath": "/Users/cambender/Desktop/Poker.NET/Poker.Core/obj/",
+        "outputPath": "/Users/cambender/Poker.NET/Poker.Core/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/cambender/.nuget/NuGet/NuGet.Config"
@@ -45,6 +45,10 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "dependencies": {
+            "SQLitePCLRaw.bundle_green": {
+              "target": "Package",
+              "version": "[2.1.11, )"
+            },
             "sqlite-net-pcl": {
               "target": "Package",
               "version": "[1.9.172, )"
@@ -68,57 +72,34 @@
           },
           "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.300/PortableRuntimeIdentifierGraph.json"
         }
-      },
-      "runtimes": {
-        "maccatalyst-arm64": {
-          "#import": []
-        }
       }
     },
-    "/Users/cambender/Desktop/Poker.NET/Poker.Library/Poker.Library.csproj": {
+    "/Users/cambender/Poker.NET/Poker.Library/Poker.Library.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/cambender/Desktop/Poker.NET/Poker.Library/Poker.Library.csproj",
+        "projectUniqueName": "/Users/cambender/Poker.NET/Poker.Library/Poker.Library.csproj",
         "projectName": "Poker.Library",
-        "projectPath": "/Users/cambender/Desktop/Poker.NET/Poker.Library/Poker.Library.csproj",
+        "projectPath": "/Users/cambender/Poker.NET/Poker.Library/Poker.Library.csproj",
         "packagesPath": "/Users/cambender/.nuget/packages/",
-        "outputPath": "/Users/cambender/Desktop/Poker.NET/Poker.Library/obj/",
+        "outputPath": "/Users/cambender/Poker.NET/Poker.Library/obj/",
         "projectStyle": "PackageReference",
         "crossTargeting": true,
         "configFilePaths": [
           "/Users/cambender/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
-          "net9.0-android",
-          "net9.0-ios",
-          "net9.0-maccatalyst"
+          "net9.0"
         ],
         "sources": {
           "/usr/local/share/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net9.0-android35.0": {
-            "targetAlias": "net9.0-android",
+          "net9.0": {
+            "targetAlias": "net9.0",
             "projectReferences": {
-              "/Users/cambender/Desktop/Poker.NET/Poker.Core/Poker.Core.csproj": {
-                "projectPath": "/Users/cambender/Desktop/Poker.NET/Poker.Core/Poker.Core.csproj"
-              }
-            }
-          },
-          "net9.0-ios18.0": {
-            "targetAlias": "net9.0-ios",
-            "projectReferences": {
-              "/Users/cambender/Desktop/Poker.NET/Poker.Core/Poker.Core.csproj": {
-                "projectPath": "/Users/cambender/Desktop/Poker.NET/Poker.Core/Poker.Core.csproj"
-              }
-            }
-          },
-          "net9.0-maccatalyst18.0": {
-            "targetAlias": "net9.0-maccatalyst",
-            "projectReferences": {
-              "/Users/cambender/Desktop/Poker.NET/Poker.Core/Poker.Core.csproj": {
-                "projectPath": "/Users/cambender/Desktop/Poker.NET/Poker.Core/Poker.Core.csproj"
+              "/Users/cambender/Poker.NET/Poker.Core/Poker.Core.csproj": {
+                "projectPath": "/Users/cambender/Poker.NET/Poker.Core/Poker.Core.csproj"
               }
             }
           }
@@ -136,8 +117,8 @@
         "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
-        "net9.0-android35.0": {
-          "targetAlias": "net9.0-android",
+        "net9.0": {
+          "targetAlias": "net9.0",
           "dependencies": {
             "Microsoft.Maui.Controls": {
               "target": "Package",
@@ -155,109 +136,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[9.0.6, 9.0.6]"
-            }
-          ],
           "frameworkReferences": {
-            "Microsoft.Android": {
-              "privateAssets": "all"
-            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
           "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.300/PortableRuntimeIdentifierGraph.json"
-        },
-        "net9.0-ios18.0": {
-          "targetAlias": "net9.0-ios",
-          "dependencies": {
-            "Microsoft.Maui.Controls": {
-              "target": "Package",
-              "version": "[9.0.51, )"
-            },
-            "Microsoft.NET.ILLink.Tasks": {
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[9.0.5, )",
-              "autoReferenced": true
-            }
-          },
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48",
-            "net481"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[9.0.6, 9.0.6]"
-            }
-          ],
-          "frameworkReferences": {
-            "Microsoft.iOS": {
-              "privateAssets": "all"
-            },
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.300/PortableRuntimeIdentifierGraph.json"
-        },
-        "net9.0-maccatalyst18.0": {
-          "targetAlias": "net9.0-maccatalyst",
-          "dependencies": {
-            "Microsoft.Maui.Controls": {
-              "target": "Package",
-              "version": "[9.0.51, )"
-            },
-            "Microsoft.NET.ILLink.Tasks": {
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[9.0.5, )",
-              "autoReferenced": true
-            }
-          },
-          "imports": [
-            "xamarinios10",
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48",
-            "net481"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[9.0.6, 9.0.6]"
-            }
-          ],
-          "frameworkReferences": {
-            "Microsoft.MacCatalyst": {
-              "privateAssets": "all"
-            },
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.300/PortableRuntimeIdentifierGraph.json"
-        }
-      },
-      "runtimes": {
-        "maccatalyst-arm64": {
-          "#import": []
         }
       }
     }

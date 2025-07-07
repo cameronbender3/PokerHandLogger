@@ -1,14 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "6zpBukpyOzY=",
+  "dgSpecHash": "58Q2VRBaOhU=",
   "success": true,
-  "projectFilePath": "/Users/cambender/Desktop/Poker.NET/Poker.Core/Poker.Core.csproj",
+  "projectFilePath": "/Users/cambender/Poker.NET/Poker.Core/Poker.Core.csproj",
   "expectedPackageFiles": [
     "/Users/cambender/.nuget/packages/sqlite-net-pcl/1.9.172/sqlite-net-pcl.1.9.172.nupkg.sha512",
-    "/Users/cambender/.nuget/packages/sqlitepclraw.bundle_green/2.1.2/sqlitepclraw.bundle_green.2.1.2.nupkg.sha512",
-    "/Users/cambender/.nuget/packages/sqlitepclraw.core/2.1.2/sqlitepclraw.core.2.1.2.nupkg.sha512",
-    "/Users/cambender/.nuget/packages/sqlitepclraw.lib.e_sqlite3/2.1.2/sqlitepclraw.lib.e_sqlite3.2.1.2.nupkg.sha512",
-    "/Users/cambender/.nuget/packages/sqlitepclraw.provider.e_sqlite3/2.1.2/sqlitepclraw.provider.e_sqlite3.2.1.2.nupkg.sha512",
+    "/Users/cambender/.nuget/packages/sqlitepclraw.bundle_green/2.1.11/sqlitepclraw.bundle_green.2.1.11.nupkg.sha512",
+    "/Users/cambender/.nuget/packages/sqlitepclraw.core/2.1.11/sqlitepclraw.core.2.1.11.nupkg.sha512",
+    "/Users/cambender/.nuget/packages/sqlitepclraw.lib.e_sqlite3/2.1.11/sqlitepclraw.lib.e_sqlite3.2.1.11.nupkg.sha512",
+    "/Users/cambender/.nuget/packages/sqlitepclraw.provider.e_sqlite3/2.1.11/sqlitepclraw.provider.e_sqlite3.2.1.11.nupkg.sha512",
     "/Users/cambender/.nuget/packages/system.memory/4.5.3/system.memory.4.5.3.nupkg.sha512"
   ],
   "logs": []
