@@ -6,22 +6,27 @@ namespace Poker.Core.Services;
 
 public class PokerLogicService : IPokerLogicService
 {
-    public List<ActionType> GetAvailableActions(HandWithDetails handWithDetails, Player player)
+    public List<ActionType> GetAvailableActions(HandWithDetails? handWithDetails, Player player)
     {
         var actions = new List<ActionType>();
+
+
+        if (handWithDetails == null || player == null || handWithDetails.Hand == null || handWithDetails.Actions == null || handWithDetails.Players == null)
+            return actions;
+
 
         // If player has folded or is all-in, return no actions
         if (PlayerHasFolded(handWithDetails, player) || PlayerIsAllIn(handWithDetails, player))
             return actions;
 
-        var currentStreet = handWithDetails.Hand.CurrentStreet;
-        var streetActions = handWithDetails.Actions.Where(a => a.Street == currentStreet).ToList();
+        var currentStreet = handWithDetails.Hand?.CurrentStreet;
+        var streetActions = handWithDetails.Actions?.Where(a => a.Street == currentStreet).ToList();
 
         var currentBet = GetCurrentBetThisStreet(streetActions, handWithDetails);
         var playerContribution = GetPlayerContributionThisStreet(handWithDetails, player.Id, currentStreet);
 
         // Find the full player object (in case you need up-to-date stack etc.)
-        var fullPlayer = handWithDetails.Players.FirstOrDefault(p => p.Id == player.Id);
+        var fullPlayer = handWithDetails.Players?.FirstOrDefault(p => p.Id == player.Id);
         int stack = (fullPlayer?.InitialStack ?? 0) - GetTotalContribution(handWithDetails, player.Id);
 
         var toCall = currentBet - playerContribution;
@@ -69,9 +74,12 @@ public class PokerLogicService : IPokerLogicService
     // Helper: Returns true if player has no chips left to act
     private bool PlayerIsAllIn(HandWithDetails handWithDetails, Player player)
     {
+        if (handWithDetails == null || player == null || handWithDetails.Players == null)
+            return false;
+
         var totalContributed = GetTotalContribution(handWithDetails, player.Id);
         // Get the "real" player from the list, to ensure up-to-date stack
-        var fullPlayer = handWithDetails.Players.FirstOrDefault(p => p.Id == player.Id);
+        var fullPlayer = handWithDetails.Players?.FirstOrDefault(p => p.Id == player.Id);
         return ((fullPlayer?.InitialStack ?? 0) - totalContributed) == 0;
     }
 
@@ -91,18 +99,22 @@ public class PokerLogicService : IPokerLogicService
 
 
     // Helper: Get the highest bet placed so far on this street
-    private int GetCurrentBetThisStreet(List<Poker.Core.Models.Action> streetActions, HandWithDetails handWithDetails)
+    private int GetCurrentBetThisStreet(List<Poker.Core.Models.Action>? streetActions, HandWithDetails handWithDetails)
     {
-        var currentStreet = handWithDetails.Hand.CurrentStreet;
-        return streetActions.Count > 0
+        if (handWithDetails == null || handWithDetails.Actions == null)
+            return 0;
+        var currentStreet = handWithDetails.Hand?.CurrentStreet;
+        return streetActions?.Count > 0
             ? streetActions.Max(a => a.Amount)
             : GetDefaultBet(handWithDetails.Hand, currentStreet);
     }
 
 
     // Helper: Get how much the player has put in on this street
-    private int GetPlayerContributionThisStreet(HandWithDetails handWithDetails, int playerId, Street street)
+    public int GetPlayerContributionThisStreet(HandWithDetails handWithDetails, int playerId, Street? street)
     {
+        if (handWithDetails == null || handWithDetails.Actions == null)
+            return 0; 
         return handWithDetails.Actions
             .Where(a => a.Street == street && a.PlayerId == playerId && (a.ActionType == ActionType.Call || a.ActionType == ActionType.Raise))
             .Sum(a => a.Amount);
@@ -112,6 +124,9 @@ public class PokerLogicService : IPokerLogicService
     // Helper: Get how much the player has put in total (across all streets)
     private int GetTotalContribution(HandWithDetails handWithDetails, int playerId)
     {
+        if (handWithDetails == null || handWithDetails.Actions == null)
+            return 0;
+
         return handWithDetails.Actions
             .Where(a => a.PlayerId == playerId && (a.ActionType == ActionType.Call || a.ActionType == ActionType.Raise))
             .Sum(a => a.Amount);
@@ -120,22 +135,28 @@ public class PokerLogicService : IPokerLogicService
 
 
     // Helper: For first bet of each street (preflop is usually BB or straddle)
-    private int GetDefaultBet(Hand hand, Street street)
+    private int GetDefaultBet(Hand? hand, Street? street)
     {
         // For Preflop, return Big Blind or Straddle
         if (street == Street.Preflop)
         {
-            if (hand.IsStraddleOn == true && hand.StraddleAmount.HasValue)
+            if (hand?.IsStraddleOn == true && hand.StraddleAmount.HasValue)
                 return hand.StraddleAmount.Value;
             else
-                return hand.StakesList.Count > 1 ? hand.StakesList[1] : 0; // [small, big]
+                return hand?.StakesList.Count > 1 ? hand.StakesList[1] : 0; // [small, big]
         }
         return 0;
     }
 
     public void AutoFillSkippedActions(HandWithDetails handWithDetails, Player justActedPlayer)
     {
-        var street = handWithDetails.Hand.CurrentStreet;
+        var street = handWithDetails?.Hand?.CurrentStreet;
+
+        if (street == null || handWithDetails?.Hand == null || handWithDetails.Players == null)
+            return;
+
+        var hand = handWithDetails.Hand;
+
 
         // Only consider players still in the hand (not folded/all-in)
         var eligiblePlayers = handWithDetails.Players
@@ -178,23 +199,24 @@ public class PokerLogicService : IPokerLogicService
             var autoAction = new Poker.Core.Models.Action
             {
                 PlayerId = skipped.Id,
-                HandId = handWithDetails.Hand.Id,
+                HandId = hand.Id,
                 ActionType = autoType,
                 Amount = 0,
-                Street = street,
+                Street = street.Value, 
                 Sequence = nextSequence++,
                 IsAutoFilled = true
             };
 
-            handWithDetails.Actions.Add(autoAction);
+            handWithDetails?.Actions?.Add(autoAction);
         }
 
         // The actual user action should be added after these in your UI/VM logic
     }
 
 
+
     // Helper: returns betting order index for a player, taking into account street rules
-    private int GetBettingOrderIndex(Hand hand, Player player, Street street)
+    private int GetBettingOrderIndex(Hand hand, Player player, Street? street)
     {
         // For now, just SeatIndex (can later improve for more poker-specific logic)
         return player.SeatIndex;
@@ -202,8 +224,11 @@ public class PokerLogicService : IPokerLogicService
 
 
     // Helper: Checks if player has acted this street
-    private bool HasActedThisStreet(HandWithDetails handWithDetails, Player player)
+    private bool HasActedThisStreet(HandWithDetails? handWithDetails, Player player)
     {
+        if (handWithDetails == null || handWithDetails.Hand == null)
+            return false;
+
         var street = handWithDetails.Hand.CurrentStreet;
         return handWithDetails.Actions.Any(a => a.PlayerId == player.Id && a.Street == street);
     }
@@ -211,8 +236,11 @@ public class PokerLogicService : IPokerLogicService
 
 
     // Helper: Checks if anyone has bet/raised this street
-    private bool HasBetOccurredThisStreet(HandWithDetails handWithDetails)
+    private bool HasBetOccurredThisStreet(HandWithDetails? handWithDetails)
     {
+        if (handWithDetails == null || handWithDetails.Hand == null || handWithDetails.Actions == null)
+            return false;
+
         var street = handWithDetails.Hand.CurrentStreet;
         return handWithDetails.Actions.Any(a =>
             a.Street == street &&
@@ -222,6 +250,9 @@ public class PokerLogicService : IPokerLogicService
     // Helper: Get the next available sequence number
     private int GetNextSequence(HandWithDetails handWithDetails)
     {
+        if (handWithDetails == null || handWithDetails.Hand == null || handWithDetails.Actions == null)
+            return 0;
+
         return handWithDetails.Actions.Count > 0
             ? handWithDetails.Actions.Max(a => a.Sequence) + 1
             : 1;
@@ -286,6 +317,7 @@ public class PokerLogicService : IPokerLogicService
 
 
 
+
     public bool IsBettingRoundComplete(HandWithDetails handWithDetails, Street street)
     {
         // (Optional: if you want to support passing a specific street, you may)
@@ -337,16 +369,20 @@ public class PokerLogicService : IPokerLogicService
 
     public int GetMinimumRaiseAmount(HandWithDetails handWithDetails, Player player)
     {
+        // Null checks up front to avoid deep null navigation
+        if (handWithDetails == null || handWithDetails.Hand == null || handWithDetails.Actions == null)
+            return 0;
+
         var hand = handWithDetails.Hand;
         var street = hand.CurrentStreet;
         var actionsThisStreet = handWithDetails.Actions
-            .Where(a => a.Street == street)
+            .Where(a => a != null && a.Street == street)
             .OrderBy(a => a.Sequence)
             .ToList();
 
         // Find all unique raises (and optionally bets)
         var raises = actionsThisStreet
-            .Where(a => a.ActionType == ActionType.Raise)
+            .Where(a => a != null && a.ActionType == ActionType.Raise)
             .ToList();
 
         int minRaise = 0;
@@ -354,7 +390,9 @@ public class PokerLogicService : IPokerLogicService
         if (raises.Count == 0)
         {
             // No raise yet. Use BB for preflop, otherwise 0 or a default for postflop
-            minRaise = (street == Street.Preflop && hand.StakesList.Count > 1) ? hand.StakesList[1] : 0;
+            minRaise = (street == Street.Preflop && hand.StakesList != null && hand.StakesList.Count > 1)
+                ? hand.StakesList[1]
+                : 0;
         }
         else if (raises.Count == 1)
         {
@@ -364,14 +402,17 @@ public class PokerLogicService : IPokerLogicService
         else
         {
             // Find the last two raises to get difference
-            var lastRaise = raises.Last();
+            var lastRaise = raises[raises.Count - 1];
             var prevRaise = raises[raises.Count - 2];
-            var raiseDiff = lastRaise.Amount - prevRaise.Amount;
-            minRaise = lastRaise.Amount + raiseDiff;
+            int lastAmount = lastRaise?.Amount ?? 0;
+            int prevAmount = prevRaise?.Amount ?? 0;
+            int raiseDiff = lastAmount - prevAmount;
+            minRaise = lastAmount + raiseDiff;
         }
 
         return minRaise;
     }
+
 
     public Player? GetHeroPlayer(HandWithDetails handWithDetails)
     {
