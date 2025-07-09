@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Poker.Core.Models;
 using Poker.Core.Services;
@@ -24,6 +24,90 @@ namespace Poker.Library.Tests
                 Actions = actions
             };
         }
+
+
+[Fact]
+public void GetAvailableActions_Handles_NullInputs_Gracefully()
+{
+    var service = new PokerLogicService();
+
+    // Case 1: handWithDetails is null
+    var actions = service.GetAvailableActions(null, new Player());
+    Assert.NotNull(actions);
+    Assert.Empty(actions);
+
+    // Case 2: player is null
+    actions = service.GetAvailableActions(new HandWithDetails(), null);
+    Assert.NotNull(actions);
+    Assert.Empty(actions);
+
+    // Case 3: Hand is null
+    var handWithDetails = new HandWithDetails { Hand = null, Actions = new List<Poker.Core.Models.Action>(), Players = new List<Player>() };
+    actions = service.GetAvailableActions(handWithDetails, new Player());
+    Assert.NotNull(actions);
+    Assert.Empty(actions);
+
+
+    // Case 5: Players is null
+    handWithDetails = new HandWithDetails { Hand = new Hand(), Actions = new List<Poker.Core.Models.Action>(), Players = null };
+    actions = service.GetAvailableActions(handWithDetails, new Player());
+    Assert.NotNull(actions);
+    Assert.Empty(actions);
+}
+
+[Fact]
+public void AutoFillSkippedActions_DoesNotThrow_OnNullProperties()
+{
+    var service = new PokerLogicService();
+
+    // Should not throw if any property is null
+    var handWithDetails = new HandWithDetails { Hand = null, Actions = new List<Poker.Core.Models.Action>(), Players = new List<Player>() };
+    var player = new Player();
+
+    var ex = Record.Exception(() => service.AutoFillSkippedActions(handWithDetails, player));
+    Assert.Null(ex);
+
+    handWithDetails = new HandWithDetails { Hand = new Hand(), Actions = new List<Poker.Core.Models.Action>(), Players = new List<Player>() };
+    ex = Record.Exception(() => service.AutoFillSkippedActions(handWithDetails, player));
+    Assert.Null(ex);
+
+    handWithDetails = new HandWithDetails { Hand = new Hand(), Actions = new List<Poker.Core.Models.Action>(), Players = null };
+    ex = Record.Exception(() => service.AutoFillSkippedActions(handWithDetails, player));
+    Assert.Null(ex);
+}
+
+
+[Fact]
+public void GetPlayerContributionThisStreet_ReturnsZero_OnEmptyActions()
+{
+    var service = new PokerLogicService();
+    var handWithDetails = new HandWithDetails { Hand = new Hand(), Actions = new List<Poker.Core.Models.Action>(), Players = new List<Player>() };
+    int result = service.GetPlayerContributionThisStreet(handWithDetails, 1, Street.Preflop);
+    Assert.Equal(0, result);
+}
+
+
+
+[Fact]
+public void GetNextToAct_DoesNotThrow_OnNullProperties()
+{
+    var service = new PokerLogicService();
+
+    // Hand is null
+    var hwd = new HandWithDetails { Hand = null, Actions = new List<Poker.Core.Models.Action>(), Players = new List<Player>() };
+    var ex = Record.Exception(() => service.GetNextToAct(hwd));
+    Assert.Null(ex);
+
+    // Actions is null
+    hwd = new HandWithDetails { Hand = new Hand(), Actions = new List<Poker.Core.Models.Action>(), Players = new List<Player>() };
+    ex = Record.Exception(() => service.GetNextToAct(hwd));
+    Assert.Null(ex);
+
+    // Players is null
+    hwd = new HandWithDetails { Hand = new Hand(), Actions = new List<Poker.Core.Models.Action>(), Players = null };
+    ex = Record.Exception(() => service.GetNextToAct(hwd));
+    Assert.Null(ex);
+}
 
 
         [Fact]
@@ -247,7 +331,7 @@ public void UndoLastAction_RemovesUserActionAndPrecedingAutos()
 
     var handWithDetails = CreateHandWithDetails(hand, players, actions);
 
-    _logic.UndoLastAction(handWithDetails); // Update your PokerLogicService to accept HandWithDetails!
+    _logic.UndoLastAction(handWithDetails); // Update PokerLogicService to accept HandWithDetails
 
     Assert.Empty(handWithDetails.Actions);
 }
